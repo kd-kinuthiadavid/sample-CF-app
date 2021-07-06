@@ -28,6 +28,20 @@ exports.addMessage = functions.https.onRequest(async (req, res) => {
   });
 
 
+  exports.addMessageCallable = functions.https.onCall(async (data, context) => {
+    // ...
+    const original = data.text;
+    // Push the new message into Firestore using the Firebase Admin SDK.
+    const writeResult = await admin.firestore().collection('messages').add({original: original});
+    console.log("********** writeResult **********", writeResult.id)
+    // Send back a message that we've successfully written the message
+    return {
+      "success": true,
+      "message": data.text,
+      "documentId": writeResult.id
+    }
+  });
+
 
   // Listens for new messages added to /messages/:documentId/original and creates an
 // uppercase version of the message to /messages/:documentId/uppercase
