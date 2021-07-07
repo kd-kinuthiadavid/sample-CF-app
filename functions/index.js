@@ -27,7 +27,7 @@ exports.addMessage = functions.https.onRequest(async (req, res) => {
     res.json({result: `Message with ID: ${writeResult.id} added.`});
   });
 
-
+// a callable version of addMessage
   exports.addMessageCallable = functions.https.onCall(async (data, context) => {
     // ...
     const original = data.text;
